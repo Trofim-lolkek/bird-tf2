@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<style type="text/css"> 
+		.duck {
+			height: 100px;
+			width: 100px;
+			position: absolute;
+		}
+		.background {
+        	background-size: 100% 100%;
+        	width: 1920px;
+        	height: 947px;
+        	background-image: url(tf2.png);
+        }
+        .box {
+        	height: 160px;
+			width: 400px;
+			background-color: white;
+			border: solid;
+        }
+        .text {
+        	font-family: 'arial'
+        }
+        body {
+        	margin:0;
+        }
+	</style>
+</head>
+<body>
+	<div class="background text"> 
+		<div class="box">
+			<h2>У тебя 15 секунд перед тем как тебя убьет вражеский снайпер</h2>
+			<h2>Надо собрать 15 птичек и не брать шпионов</h2>
+		</div>
+		<h1>ОЧКИ <span class="sum">0</span></h1>
+	    <button class="btn">кнопочка</button>
+	</div>
+	<script type="text/javascript">
+		let sum = 0
+		let y = [200, 400, 600]
+		let button = document.querySelector('.btn')
+		let types = ['bad', 'good']
+
+		let createDuck = function() {
+			let duck = document.createElement('div');
+			document.body.appendChild(duck);
+			duck.classList.add('duck')
+			randomX = Math.round(Math.random()*1400+200)
+			duck.style.left = randomX + 'px'
+			randomY = Math.round(Math.random()*2)
+			duck.style.top = y[randomY]+ 'px'
+
+			let typeIndex = Math.round(Math.random()*1);
+			duck.myType = types[typeIndex]
+			if(duck.myType=='good') {
+				duck.style.backgroundImage = "url(sheep.png)";
+				duck.style.backgroundSize = "100% 100%"
+			}else if (duck.myType=='bad'){
+				duck.style.backgroundImage = "url(spy.png)";
+				duck.style.backgroundSize = "100% 100%"
+			} 
+
+			duck.onclick = function() {
+				duck.style.display = 'none';
+				duck.myType = types[typeIndex]
+				if(duck.myType=='good') {
+				sum = sum + 1;
+				document.querySelector(".sum").innerHTML = sum;
+			}else if (duck.myType=='bad'){
+				sum = sum - 1;
+				document.querySelector(".sum").innerHTML = sum;
+			}
+			}
+			}
+		
+		
+		let endGame = function(){
+			clearInterval(interval1)
+			if (sum>=15) {
+				alert ('ты собрал нужное количество птичек')
+		}else {
+			alert('ты умер азахахаххах')
+		}
+}
+		button.onclick = function() {
+			interval1 = setInterval(createDuck, 250)
+			setTimeout(endGame,10000)
+		}
+	</script>
+</body>
+</html>
